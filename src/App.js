@@ -1,112 +1,72 @@
 import {
-    IonApp,
-    IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonItem,
-    IonInput,
-    IonLabel,
-  } from '@ionic/react';
-  import React, { useState } from 'react';
-  import { useLocalStorage } from './hooks';
-  import Copyright from './components/Copyright';  
+  IonApp,
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButton,
+  IonItem,
+  IonInput,
+  IonLabel,
+  IonDatetime,
+  IonSelectOption,
+  IonSelect
+} from '@ionic/react';
+import React, { useEffect, useState } from 'react';
+import { useLocalStorage } from './hooks';
+import Copyright from './components/Copyright';  
+
+function App() {
+ // const [storeName, setStoreName] = useLocalStorage('',[]);
+  const [counter, setCounter] = useState(0)
+
+  const [name, setName] = useState('')
+  const [birthDate, setBirthDate] = useState('');
+  const [gender, setGender] = useState('');
+  const [targetDate, setTargetDate] = useState(new Date().toISOString());
+
+  const [usersInfo, setUsersInfo] = useState([])
+
+  const toLocalStorage =() =>{ 
+    setCounter((counter) => counter+1)
+    let newUser ={
+      'name': name,
+      'birthdate':birthDate,
+      'gender': gender,
+      'targetDate': targetDate
+    }
+    localStorage.setItem(`name${counter}`,JSON.stringify(newUser))
+    // for version 2
+    // setUsersInfo([...usersInfo,newUser ])
+    setName('')
+    setBirthDate('')
+    setGender('')
+  }
+
+ // version 2
+  // useEffect(() => {
+  //   localStorage.setItem('users',JSON.stringify(usersInfo) )
+  // }, [usersInfo]);
+// retriing the usersInfo list
+// console.log(JSON.parse(localStorage.getItem('users')))
+
+
+
+  return (
+    <IonApp>
+      <IonHeader>
+        <IonToolbar class='ion-text-center'>
+          <IonTitle>Graph for Fun</IonTitle>
+        </IonToolbar>
+      </IonHeader>
   
-  function App() {
-    const [name, setName] = useLocalStorage('key',[]);
-    // const [name1, setName1] = useLocalStorage('name_1','');
-    // const [name2, setName2] = useLocalStorage('name_2','');
-    // const [name3, setName3] = useLocalStorage('name_3','');
-    // const [name4, setName4] = useLocalStorage('name_4','');
-    // const [name5, setName5] = useLocalStorage('name_5','');
-    // const [name6, setName6] = useLocalStorage('name_6','');
-    // const [name7, setName7] = useLocalStorage('name_7','');
-    // const [name8, setName8] = useLocalStorage('name_8','');
-    // const [name9, setName9] = useLocalStorage('name_9','');
-    // const [birthDate, setBirthDate] = useLocalStorage('birthDate','');
-    // const [gender, setGender] = useLocalStorage('gender','');
-    // const [targetDate, setTargetDate] = useState(new Date().toISOString());
-    
-    return (
-      <IonApp>
-        <IonHeader>
-          <IonToolbar class='ion-text-center'>
-            <IonTitle>Graph for Fun</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-
         <IonContent className="ion-padding">
+
           <IonItem>
             <IonLabel position='floating'>Name:</IonLabel>          
-            <IonInput value={name} onIonChange={(event) => setName(name,event.detail.value)}/>
+            <IonInput value={name} onIonChange={(event) => setName(event.detail.value)}/>
           </IonItem>
-{/* 
-          { name &&
-          <IonItem>
-            <IonLabel position='floating'>Name:</IonLabel>          
-            <IonInput value={name1} onIonChange={(event) => setName1(event.detail.value)}/>
-          </IonItem>
-          }
 
-          { name1 &&
-          <IonItem>
-            <IonLabel position='floating'>Name:</IonLabel>          
-            <IonInput value={name2} onIonChange={(event) => setName2(event.detail.value)}/>
-          </IonItem>
-          }
-
-          { name2 &&
-          <IonItem>
-            <IonLabel position='floating'>Name:</IonLabel>          
-            <IonInput value={name3} onIonChange={(event) => setName3(event.detail.value)}/>
-          </IonItem>
-          }
-
-          { name3 &&
-          <IonItem>
-            <IonLabel position='floating'>Name:</IonLabel>          
-            <IonInput value={name4} onIonChange={(event) => setName4(event.detail.value)}/>
-          </IonItem>
-          }
-
-          { name4 &&
-          <IonItem>
-            <IonLabel position='floating'>Name:</IonLabel>          
-            <IonInput value={name5} onIonChange={(event) => setName5(event.detail.value)}/>
-          </IonItem>
-          }
-
-          { name5 &&
-          <IonItem>
-            <IonLabel position='floating'>Name:</IonLabel>          
-            <IonInput value={name6} onIonChange={(event) => setName6(event.detail.value)}/>
-          </IonItem>
-          }
-
-          { name6 &&  
-          <IonItem>
-            <IonLabel position='floating'>Name:</IonLabel>          
-            <IonInput value={name7} onIonChange={(event) => setName7(event.detail.value)}/>
-          </IonItem>
-          }
-
-          { name7 &&
-          <IonItem>
-            <IonLabel position='floating'>Name:</IonLabel>          
-            <IonInput value={name8} onIonChange={(event) => setName8(event.detail.value)}/>
-          </IonItem>
-          }
-
-          { name8 &&          
-          <IonItem>
-            <IonLabel position='floating'>Name:</IonLabel>          
-            <IonInput value={name9} onIonChange={(event) => setName9(event.detail.value)}/>
-          </IonItem>
-          }
-
-*/}
-
-{/* 
           { name &&
           <IonItem>
             <IonLabel position='floating'>Gender:</IonLabel>      
@@ -131,18 +91,18 @@ import {
           </IonItem>
           }
 
-          { birthDate &&
+          {/* { birthDate &&
           <BiorhythmCard targetDate={targetDate} birthDate={birthDate}/>
-          }
-          <IonButton expand='block'>Submit</IonButton> */}
+          } */}
+           <IonButton expand='block' onClick={toLocalStorage}>Submit</IonButton>
 
         {/* -- This is the Graph Zone -- */}
-  
+
+        
         </IonContent>
-        <Copyright/>
-      </IonApp>
-    );
-  }
-  
-  export default App;
-  
+      <Copyright/>
+    </IonApp>
+  );
+}
+// Toon was here
+export default App;
